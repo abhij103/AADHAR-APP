@@ -4,7 +4,8 @@ import { sign } from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import { User } from "../models/user.model";
 import { UserRequest } from "../utils/constants";
-
+import * as dotenv from "dotenv";
+dotenv.config({ path: __dirname+'../.env' });
 export class UserController {
     static getUser = async (req: UserRequest, res: Response, next: NextFunction) => {
         try {
@@ -32,12 +33,13 @@ export class UserController {
             if (!areEqual) {
                 throw { statusCode: 401, message: 'Wrong password' };
             }
+            const userkey:any = process.env.USER_KEY;
             const token = sign(
                 {
                     email: user.email,
                     userId: user._id.toString()
                 },
-                'usersecretkey',
+                userkey,
                 { expiresIn: '1h' }
             );
             res.status(200).json({ token: token, userId: user._id.toString() });

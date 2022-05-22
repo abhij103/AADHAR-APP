@@ -8,7 +8,8 @@ import { AdminPostBody, UserPostBody, UserRequest } from "../utils/constants";
 import randomstring from 'randomstring'
 import { sign } from "jsonwebtoken";
 import { Mailer } from "../utils/mailer";
-
+// import * as dotenv from "dotenv";
+// dotenv.config({ path: __dirname+'../.env' });
 export class AdminController {
     static createAdmin = async (req: UserRequest, res: Response, next: NextFunction) => {
         try {
@@ -17,7 +18,8 @@ export class AdminController {
                 throw { statusCode: 422, message: errors.array({ onlyFirstError: true })[0].msg };
             }
             const body = req.body as AdminPostBody;
-            const hashedPw = await hash(body.password, 12);
+            const hashkey:any = process.env.HASH_KEY;
+            const hashedPw = await hash(body.password, +hashkey);
             const admin = new Admin(body.email, hashedPw, body.name);
             await admin.addAdminDb();
             res.status(201).json({
@@ -36,7 +38,8 @@ export class AdminController {
                 throw { statusCode: 422, message: errors.array({ onlyFirstError: true })[0].msg };
             }
             const body = req.body as UserPostBody;
-            const hashedPw = await hash(body.password, 12);
+            const hashkey:any = process.env.HASH_KEY;
+            const hashedPw = await hash(body.password, +hashkey);
             const aadharNum = randomstring.generate({
                 length:12,
                 charset: '0123456789'
@@ -73,12 +76,13 @@ export class AdminController {
               if (!areEqual) {
                 throw { statusCode: 401, message: 'Wrong password' };
               }
+              const adminkey:any = process.env.ADMIN_KEY;
               const token = sign(
                 {
                   email: user.email,
                   userId: user._id.toString()
                 },
-                'adminsecretkey',
+                adminkey,
                 { expiresIn: '1h' }
               );
               res.status(200).json({ token: token, userId: user._id.toString() });

@@ -4,6 +4,7 @@ import { Admin } from '../models/admin.model';
 import { User } from '../models/user.model';
 import { UserRequest } from '../utils/constants';
  import jwt from 'jsonwebtoken';
+ import 'dotenv/config'
 export const signUpChecker = [
     body('email')
     .isEmail()
@@ -53,7 +54,8 @@ export const isAdminAuthenticated = (req:UserRequest, res:Response, next:NextFun
   const token = authHeader.split(' ')[1];
   let decodedToken;
   try {
-    decodedToken = jwt.verify(token, 'adminsecretkey') as any;
+    const adminkey:any = process.env.ADMIN_KEY;
+    decodedToken = jwt.verify(token, adminkey) as any;
   } catch (err) {
     throw {statusCode:401,message:'Invalid token'};
   }
