@@ -1,0 +1,63 @@
+<app-toast *ngIf="showToast" (closeToast)="showToast = false;" 
+[config]="toastConfig"></app-toast>
+<div class="admin-dashboard">
+    <form [formGroup]="aadharForm" (ngSubmit)="submit()">
+        <div class="aadhar-form">
+            <h3>ADD AADHAR USER</h3>
+            <div class="mb-3 w-90">
+                <label for="firstname" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="firstname" formControlName="fname"
+                [ngClass]="{'input-error':aadharForm.controls['fname']?.touched && aadharForm.controls['fname']?.errors}">
+                <div class="error-msg" *ngIf="aadharForm.controls['fname']?.touched && aadharForm.controls['fname']?.errors">
+                    {{aadharForm.controls['fname'].hasError('required') ? 'First Name Required' : 'Minimum 3 chars reqd'}}
+                  </div>
+              </div>
+              <div class="mb-3 w-90">
+                <label for="lastname" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="lastname" formControlName="lname"
+                [ngClass]="{'input-error':aadharForm.controls['lname']?.touched && aadharForm.controls['lname']?.errors}">
+                <div class="error-msg" *ngIf="aadharForm.controls['lname']?.touched && aadharForm.controls['lname']?.errors">
+                    {{aadharForm.controls['lname'].hasError('required') ? 'Last Name Required' : 'Minimum 3 chars reqd'}}
+                  </div>
+              </div>
+              <div class="mb-3 w-90">
+                <label for="mobno" class="form-label">Mobile Number</label>
+                <input type="email" class="form-control" id="mobno" formControlName="mobno"
+                [ngClass]="{'input-error':aadharForm.controls['mobno']?.touched && aadharForm.controls['mobno']?.errors}">
+                <div class="error-msg" *ngIf="aadharForm.controls['mobno']?.touched && aadharForm.controls['mobno']?.errors">
+                    {{aadharForm.controls['mobno'].hasError('required') ? 'Mob No Required' : aadharForm.controls['mobno'].hasError('pattern') ?
+                    'Enter a 10 digit number' : 'Mobile No already in use,try some other'}}
+                  </div>
+              </div>
+              <div class="mb-3 w-90">
+                <label for="emailinput" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="emailinput" placeholder="name@example.com" formControlName="email"
+                [ngClass]="{'input-error':aadharForm.controls['email']?.touched && aadharForm.controls['email']?.errors}">
+                <div class="error-msg" *ngIf="aadharForm.controls['email']?.touched && aadharForm.controls['email']?.errors">
+                    {{aadharForm.controls['email'].hasError('required') ? 'Email Required' : aadharForm.controls['email'].hasError('email') ?
+                    'Invalid email address' : 'Email already in use,try some other'}}
+                  </div>
+              </div> 
+              <div class="mb-3 w-90">
+                <label for="pwdinput" class="form-label">Password</label>
+                <input type="password" class="form-control" id="pwdinput" formControlName="password"
+                [ngClass]="{'input-error':aadharForm.controls['password']?.touched && aadharForm.controls['password']?.errors}">
+                <div class="error-msg" *ngIf="aadharForm.controls['password']?.touched && aadharForm.controls['password']?.errors">
+                    {{aadharForm.controls['password'].hasError('required') ? 'Password required' : 'Minimum 5 chars'}}
+                  </div>
+              </div>
+              <div class="mb-3 w-90">
+                <label for="address" class="form-label">Home Address</label>
+                <textarea class="form-control" id="address" rows="3" formControlName="address"
+                [ngClass]="{'input-error':aadharForm.controls['address']?.touched && aadharForm.controls['address']?.errors}">
+            </textarea>
+            <div class="error-msg" *ngIf="aadharForm.controls['address']?.touched && aadharForm.controls['address']?.errors">
+                {{aadharForm.controls['address'].hasError('required') ? 'Address required' : 'Minimum 10 chars reqd'}}
+              </div>
+              </div>
+              <div class="w-90 mb-4">
+                <button type="submit" class="btn btn-success">Add User</button>
+             </div> 
+        </div>
+    </form>
+</div>

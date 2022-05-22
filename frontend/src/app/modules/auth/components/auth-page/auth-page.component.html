@@ -1,0 +1,38 @@
+<app-toast *ngIf="showToast" (closeToast)="showToast = false;" 
+[config]="toastConfig"></app-toast>
+<div class="auth-page">
+       <form [formGroup]="authForm" (ngSubmit)="submit()">
+   <div class="auth-page_form">
+       <h3>LOGIN</h3>
+        <div class="mb-3 w-90">
+            <label for="emailinput" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="emailinput" placeholder="name@example.com" formControlName="email"
+            [ngClass]="{'input-error':authForm.controls['email']?.touched && authForm.controls['email']?.errors}">
+            <div class="error-msg" *ngIf="authForm.controls['email']?.touched && authForm.controls['email']?.errors">
+                {{authForm.controls['email'].hasError('required') ? 'Email Required' : 'Valid Email required'}}
+              </div>
+          </div> 
+          <div class="mb-3 w-90">
+            <label for="pwdinput" class="form-label">Password</label>
+            <input type="password" class="form-control" id="pwdinput" formControlName="password"
+            [ngClass]="{'input-error':authForm.controls['password']?.touched && authForm.controls['password']?.errors}">
+            <div class="error-msg" *ngIf="authForm.controls['password']?.touched && authForm.controls['password']?.errors">
+                {{authForm.controls['password'].hasError('required') ? 'Password Required' : 'Min lenght of password is 5 chars'}}
+              </div>
+          </div>
+         <div class="w-90 mb-3">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" formControlName="role" id="inlineRadio1" value="admin">
+                <label class="form-check-label" for="inlineRadio1">Admin</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" formControlName="role" id="inlineRadio2" value="user">
+                <label class="form-check-label" for="inlineRadio2">User</label>
+              </div>  
+         </div>
+         <div class="w-90">
+            <button type="submit" class="btn btn-primary">Login</button>
+         </div>   
+   </div>
+</form>
+</div>
